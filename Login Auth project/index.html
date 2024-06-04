@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/e4a7bac09c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="form-box">
+
+
+            <h1 id="title">Sign up</h1>
+            <form id="authForm">
+                <div class="input-group">
+                    <div class="input-field" id="inputName">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="name" placeholder="Name">
+                    </div>
+
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="input-field" id="nameField">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    
+                    <p>Lost password <a href="#">Click Here!</a></p>
+                </div>
+                <div class="btn-field">
+                    <button type="submit" id="signup">Sign up</button>
+                    <button type="button" id="signin" class="disable">Sign in</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        let signup = document.getElementById("signup");
+        let signin = document.getElementById("signin");
+        let inputName = document.getElementById("inputName");
+        let title = document.getElementById("title");
+        let authForm = document.getElementById("authForm");
+
+        signin.onclick = function() {
+            inputName.style.maxHeight = "0";
+            title.innerHTML = "Sign In";
+            signup.innerHTML = "Sign in";
+        }
+
+        signup.onclick = function() {
+            if (title.innerHTML === "Sign Up") {
+                inputName.style.maxHeight = "60px";
+            } else {
+                inputName.style.maxHeight = "0";
+            }
+            title.innerHTML = "Sign Up";
+            signup.innerHTML = "Sign up";
+        }
+
+        authForm.onsubmit = function(event) {
+            event.preventDefault();
+            if (title.innerHTML === "Sign Up") {
+                signUpUser();
+            } else {
+                signInUser();
+            }
+        }
+
+        function signUpUser() {
+
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            if (localStorage.getItem(email)) {
+                alert('User already exists');
+            } else {
+                localStorage.setItem(email, JSON.stringify({ name, email, password }));
+                alert('User registered successfully');
+                window.location.href = "hidden_signup.html"; 
+            }
+        }
+
+        function signInUser() {
+
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            let user = JSON.parse(localStorage.getItem(email));
+            if (user && user.password === password) {
+                alert('Sign in successful');
+                window.location.href = "hidden_signin.html"; 
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>
